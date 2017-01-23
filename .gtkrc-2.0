@@ -1,0 +1,79 @@
+#gtk-theme-name = "Adwance"
+gtk-theme-name = "A-New-Hope"
+#gtk-theme-name = "Drakfire Black"
+#gtk-theme-name = "drakfire dream black"
+#gtk-theme-name = "drakfire dream gray"
+#gtk-theme-name = "Nodoka-Midnight"
+#gtk-theme-name = "The-days-of-grays"
+#gtk-theme-name = "adt-gtk-theme"
+#gtk-theme-name = "DarkWay"
+#gtk-theme-name = "elementary"
+#gtk-theme-name = "Elegant_Brit"
+#gtk-theme-name = "Zukitwo-Dark"
+#gtk-theme-name = "Dust"
+#gtk-theme-name = "Elegant Dark Flat-Grey"
+#gtk-theme-name = "dark"
+#gtk-theme-name = "Zukitwo"
+#gtk-theme-name = "Mint-X"
+
+#gtk-icon-theme-name="Echo"
+gtk-icon-theme-name="Humanity"
+#gtk-icon-theme-name="Faenza-Dark"
+#gtk-icon-theme-name="Faenza-Ambiance"
+#gtk-icon-theme-name="ubo-icons-0.1alpha"
+#gtk-icon-theme="Mint-X"
+
+style "safe-font"
+{
+	#font_name="Sans 8"
+  font_name="ProggyTinyTT 12" # skaliert nicht :(
+}
+
+style "user-font"
+{
+  #font_name="Sans 8"
+  font_name="gohufont 8"
+#  font_name="ProggyTinyTT 12" # skaliert nicht :(
+}
+widget_class "*" style "user-font"
+
+# Seems for the combination gimp + gohufont,
+# gimp crashes consistently in the "open file" dialog,
+# just use a different font
+
+widget_class "*gimp*" style "safe-font"
+widget_class "*Gimp*" style "safe-font"
+
+gtk-xft-antialias = 1
+gtk-xft-hinting = 1
+gtk-xft-hintstyle = full
+gtk-xft-rgba = rgb
+
+
+gtk-enable-event-sounds = 0
+
+style "vimfix" {
+  #bg[NORMAL] = "#000000" # this matches my gvim theme 'Normal' bg color.
+  bg[NORMAL] = "#151515"
+}
+widget "vim-main-window.*GtkForm" style "vimfix"
+
+style "treelines" {
+#  GtkTreeView::enable-tree-lines   = 1
+#  GtkTreeView::enable-grid-lines   = 1
+#  GtkTreeView::enable_tree_lines   = 1
+#  GtkTreeView::tree-line-pattern = "\001\000"
+#  GtkTreeView::tree-line-width = 10
+#  GtkTreeView::grid-line-width = 10
+  GtkTreeView::expander-size   = 10
+#  GtkTreeView::indent-expanders   = 1
+#  GtkTreeView::allow-rules = 1 # even/odd coloring
+}
+#widget_class "*.GtkTreeView" style "treelines"
+widget_class "*" style "treelines"
+
+#style "darkfix" {
+#    text[NORMAL] = "#909090"
+#}
+#widget_class "*" style "darkfix"
+

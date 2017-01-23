@@ -1,0 +1,67 @@
+#!/bin/bash
+
+LAST_REMOTE_BACKUP_FILE=~userbackup/log/last-remote-backup
+LAST_LOCAL_BACKUP_FILE=~userbackup/log/last-local-backup
+
+i3status | {
+	read l
+	echo $l
+	read l
+	echo $l
+	read l
+	echo $l
+	while read l; do
+		new_mails=$(find ~/.mail/ -path '*/new/*'|wc -l)
+
+		# Backup status
+
+		if [ -e $LAST_REMOTE_BACKUP_FILE ]; then
+			last_remote=$(date -d '@'$(< $LAST_REMOTE_BACKUP_FILE) +'%d.%m. %H:%M')
+			color_remote="#e0e0e0"
+		else
+			last_remote="NEVER"
+			color_remote="#FF0000"
+		fi
+		if [ -e $LAST_LOCAL_BACKUP_FILE ]; then
+			last_local=$(date -d '@'$(< $LAST_LOCAL_BACKUP_FILE) +'%d.%m. %H:%M')
+			color_local="#e0e0e0"
+		else
+			last_local="NEVER"
+			color_local="#FF0000"
+		fi
+
+		# Marks
+
+		marks=$(i3-msg -t get_marks|tr -d \"\[\],)
+
+		# Title of focussed window
+
+		id=$(xprop -root | awk '/_NET_ACTIVE_WINDOW\(WINDOW\)/{print $NF}')
+		win_name=$(xprop -id $id | awk '/_NET_WM_NAME/{$1=$2="";print}' |tr -d '\\' | sed -r 's/[^"]*\"(.*)\"/\1/'| tr "\"" "\'" )
+		#cut -d'"' -f2 | tr -d "\"\{\}\'")
+
+		# Assemble together with i3status output
+
+		state=',['
+
+		state+='{"name":"win", "color":"#808080","instance":"x","full_text":"'$win_name'"},'
+
+		state+='{"name":"marks", "color":"#f0b050","instance":"x","full_text":"'$marks'"},'
+
+		if [ "$new_mails" != 0 ]; then
+			state+='{"name":"mails","color":"#50b0f0","instance":"x","full_text":"'$new_mails' mails"},'
+		fi
+
+		state+='{"name":"lastbackup-local","color":"'$color_local'","instance":"x","full_text":"b '$last_local'"},'
+
+		state+='{"name":"lastbackup-remote","color":"'$color_remote'","instance":"x","full_text":"B '$last_remote'"},'
+		
+		state+='{"name":"state","instance":"x","full_text":"'$(~/bin/state short)'"},'
+
+		state+=${l:2}
+
+		echo $state
+	done
+}
+
+# vim: set ts=2 sw=2 tw=78 noexpandtab :

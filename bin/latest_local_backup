@@ -1,0 +1,9 @@
+#!/bin/bash
+
+INFOFILE=/home/henning/.last_local_backup
+
+if [ -e $INFOFILE ]; then
+	date --date='@'$(< $INFOFILE) +'%d.%m. %H:%M'
+else
+	echo None
+fi

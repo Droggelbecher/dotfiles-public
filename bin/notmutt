@@ -1,0 +1,112 @@
+#!/usr/bin/env python2
+
+import sys
+import argparse
+import re
+import subprocess
+import os
+import shutil
+
+SYMLINK_DIR = os.path.join(os.getenv('HOME'), '.cache/notmuch/mutt/results/')
+
+message_id_re = re.compile(r'message-id:\s+<([^>]+)>', re.IGNORECASE)
+
+def empty_maildir(directory):
+    curdir = os.path.join(SYMLINK_DIR, 'cur/')
+    tmpdir = os.path.join(SYMLINK_DIR, 'tmp/')
+    newdir = os.path.join(SYMLINK_DIR, 'new/')
+    if os.path.exists(curdir):
+        print("deleting:", curdir)
+        shutil.rmtree(curdir)
+    try:
+        os.makedirs(curdir)
+    except OSError:
+        pass
+    try:
+        os.makedirs(newdir)
+    except OSError:
+        pass
+    try:
+        os.makedirs(tmpdir)
+    except OSError:
+        pass
+
+def get_message_ids(f, args):
+    ids = []
+    for line in f:
+        line = line.strip()
+        m = re.match(message_id_re, line)
+        if m is not None:
+            ids.append(m.groups()[0])
+    return ids
+
+def command_tag(args):
+    notmuch_args = ['notmuch', 'tag'] + args.query.split() + ['--']
+
+    ids = get_message_ids(sys.stdin, args)
+
+    print("ids=", ids)
+    for id_ in ids:
+        notmuch_args.append("id:" + str(id_))
+
+    print("EXECUTING:", notmuch_args)
+    subprocess.check_output(notmuch_args)
+
+def command_search(args):
+    notmuch_args = ['notmuch', 'search', '--output=files']
+
+    if args.remove_dups:
+        notmuch_args.append('--duplicate=1')
+
+    notmuch_args.append(args.query)
+
+    empty_maildir(SYMLINK_DIR)
+
+    print("EXECUTING:", notmuch_args)
+    out = subprocess.check_output(notmuch_args).splitlines()
+
+    for line in out:
+        line = line.strip()
+        if not line:
+            continue
+
+        os.symlink(line, os.path.join(SYMLINK_DIR, 'cur/', os.path.basename(line)))
+
+
+COMMANDS = {
+        'tag': command_tag,
+        'search': command_search
+        }
+
+
+def parse_arguments():
+    """
+
+    Tag a bunch of mails:
+
+        $0 [--prompt,--remove-dups] tag [tagspec...] < $MAILS
+
+
+        $0 [--prompt,--remove-dups] search [searchspec...] < $MAILS
+
+
+    """
+
+    parser = argparse.ArgumentParser(description='mutt/notmuch interface helper in python.')
+    parser.add_argument('--prompt', '-p', action = 'store_true', default = False)
+    parser.add_argument('--remove-dups', '-r', action = 'store_true', default = False)
+    parser.add_argument('command', choices = COMMANDS.keys())
+    parser.add_argument('query', nargs = '?', default = '')
+    args = parser.parse_args()
+
+    return args
+
+if __name__ == '__main__':
+    args = parse_arguments()
+    if args.prompt:
+        print("notmutt {}:".format(args.command))
+        args.query = sys.stdin.readline()
+
+    COMMANDS[args.command](args)
+
+

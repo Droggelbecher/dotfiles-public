@@ -1,0 +1,73 @@
+#!/bin/bash
+
+STATEFILE=/tmp/state
+
+if [ ! -e $STATEFILE ]; then
+	echo backup-local > $STATEFILE
+	echo backup-remote >> $STATEFILE
+	echo autolock >> $STATEFILE
+fi
+
+case $1 in
+	get)
+		grep "$2" $STATEFILE >/dev/null
+		;;
+
+	set)
+		if [ "$2" == autolock ]; then
+			xautolock -enable;
+		fi
+		if grep "$2" $STATEFILE >/dev/null; then
+			echo > /dev/null
+		else
+			echo "$2" >> $STATEFILE
+		fi
+		;;
+
+	unset)
+		if [ "$2" == autolock ]; then
+			xautolock -disable;
+		fi
+		if grep "$2" $STATEFILE >/dev/null; then
+			grep -v "$2" >> $STATEFILE
+		fi
+		;;
+
+	toggle)
+		if grep "$2" $STATEFILE >/dev/null; then
+			if [ "$2" == autolock ]; then
+				xautolock -disable;
+			fi
+			grep -v "$2" $STATEFILE > ${STATEFILE}.tmp
+			mv ${STATEFILE}.tmp $STATEFILE
+		else
+			if [ "$2" == autolock ]; then
+				xautolock -enable;
+			fi
+			echo "$2" >> $STATEFILE
+		fi
+		killall -USR1 i3status
+		;;
+
+	short)
+		S=
+		if grep autolock $STATEFILE >/dev/null; then
+			S=${S}L
+		else
+			S=${S}_
+		fi
+		if grep backup-local $STATEFILE >/dev/null; then
+			S=${S}b
+		else
+			S=${S}_
+		fi
+		if grep backup-remote $STATEFILE >/dev/null; then
+			S=${S}B
+		else
+			S=${S}_
+		fi
+		echo -n $S
+		;;
+esac
+
+

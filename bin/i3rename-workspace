@@ -1,0 +1,32 @@
+#!/bin/bash
+
+ROFI=/usr/bin/rofi
+
+WS=$(i3-msg -t get_workspaces|sed 's/.*num":\([0-9]\+\).*"focused":true.*/\1/')
+
+PROPOSALS="$WS NavKit\n\
+$WS code\n\
+$WS web\n\
+$WS RnI\n\
+$WS ML\n\
+$WS sys\n\
+"
+
+
+NEWNAME=$(echo -e $PROPOSALS | $ROFI \
+    -dmenu \
+    -p "New workspace name: " \
+		-bg "#222222" -fg "#a0a0a0" \
+		-hlbg "#285577" -hlfg "#ffffff" \
+    -bg-active "#606060" -fg-active "#ffffff" \
+		-bw 4 -bc "#285577" \
+		-font "ProggyCleanTT 12" \
+		-padding 20 \
+		-columns 1 \
+		-width 40 \
+		-sidebar-mode \
+		-hide-scrollbar \
+    -location 0)
+i3-msg rename workspace to \"${NEWNAME}\"
+
+

@@ -1,0 +1,35 @@
+#!/bin/bash
+
+ROFI=/usr/bin/rofi
+
+if [ -x $ROFI ]; then
+
+
+	#$ROFI -modi "run,window,ssh"
+
+	$ROFI \
+		-bg "#222222" -fg "#a0a0a0" \
+		-hlbg "#285577" -hlfg "#ffffff" \
+    -bg-active "#606060" -fg-active "#ffffff" \
+		-bw 2 -bc "#285577" \
+		-font "ProggyCleanTT 12" \
+		-padding 20 \
+		-columns 1 \
+		-width 40 \
+		-sidebar-mode \
+		-hide-scrollbar \
+		-modi "run,window,ssh" \
+		-location 0 \
+		-show run 
+
+		#-bgalt "#101010" \
+
+		#-font "gohufont 8" 
+else
+
+
+	dmenu_run \
+		-nb '#305080' -nf '#c0c0c0' \
+		-sb black -sf white \
+		-fn '-gohu-gohufont-medium-r-normal-*-11-80-100-100-c-60-iso8859-1'
+fi

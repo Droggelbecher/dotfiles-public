@@ -1,0 +1,60 @@
+# vim: set ft=python:
+import math
+import sys
+import os
+import itertools
+import random
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+$PROMPT = "{GREEN}{hostname} {YELLOW}{cwd} {branch_color}{curr_branch}{NO_COLOR} {prompt_end} "
+$DYNAMIC_CWD_WIDTH = (20, '%')
+
+# ALso good: fruity, native*, perldoc, rrt, trac, vim
+$XONSH_COLOR_STYLE = "monokai"
+#$XONSH_COLOR_STYLE = "vim"
+
+$BROWSER = "firefox"
+
+$PATH += [ '~/bin' ]
+
+def _cg(args, stdin=None):
+    """
+    Find project root directory and allow
+    quick changing into subdirectories of that I often need
+    """
+    bookmarks = {
+        # CENSORED, sorry :-)
+        }
+
+    root_markers = { '.git', '.root' }
+    cwd = os.getcwd()
+    while not os.path.ismount(cwd):
+        for marker in root_markers:
+            p = os.path.join(cwd, marker)
+            if os.path.exists(p):
+                cd @(cwd)
+                if len(args) and args[0] in bookmarks:
+                    cd @(bookmarks[args[0]])
+                return 
+        cwd = os.path.join(cwd, '..')
+
+aliases['cg'] = _cg
+
+def _ycwd(args, stdin=None):
+    """
+    'Yank' current working directory
+    """
+    $(pwd | xclip)
+
+aliases['yd'] = _ycwd
+
+
+def _pcwd(args, stdin=None):
+    d = $(xclip -o).strip()
+    print(d)
+    cd @(d)
+
+aliases['pd'] = _pcwd
+

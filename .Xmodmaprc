@@ -1,0 +1,52 @@
+
+
+! "> / <"-key = compose
+keycode 94 = Multi_key
+
+! keycode 113 = Mode_switch
+keycode 108 = Mode_switch
+
+! through vnc, the windows key is Super_L
+clear Mod4
+! for a model m which has no windows keys, we have to comment out the
+! following line.
+!add Mod4 = Meta_L Super_L
+
+keysym a = a A adiaeresis Adiaeresis adiaeresis Adiaeresis
+keysym o = o O odiaeresis Odiaeresis odiaeresis Odiaeresis
+keysym e = e E EuroSign EuroSign EuroSign EuroSign
+keysym u = u U udiaeresis Udiaeresis udiaeresis Udiaeresis
+keysym s = s S ssharp ssharp ssharp ssharp
+
+! Mute key
+! keycode 160 = F13
+
+
+!keycode 144 = XF86AudioPrev
+!keycode 153 = XF86AudioNext
+!keycode 160 = XF86AudioMute
+!keycode 162 = XF86AudioPause
+!keycode 164 = XF86AudioStop
+!keycode 174 = XF86AudioLowerVolume
+!keycode 176 = XF86AudioRaiseVolume
+!keycode 222 = XF86PowerDown
+
+!keycode 213 = XF86PowerDown
+
+!keycode 174 = XF86AudioStop
+!keycode
+
+!keycode 165 = XF86LogOff
+
+! Print -> Insert for X121e which doesnt have an insert key
+! keycode 107 = Insert
+!keycode 107 = Super_R
+
+! Print -> Win Key
+!add Mod4 = Super_R
+
+! use caps lock as mod4, source:https://faq.i3wm.org/question/490/using-caps-lock-as-mod-key/
+clear Lock
+keycode 66 = Hyper_L
+add Mod4 = Hyper_L
+

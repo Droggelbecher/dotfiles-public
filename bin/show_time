@@ -1,0 +1,4 @@
+#!/bin/bash
+
+notify-send -t 5000 "$(date +'%H:%M:%S %z')" "$(date +'%A %Y-%m-%d\nWoche %V')"
+

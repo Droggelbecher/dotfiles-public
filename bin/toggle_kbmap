@@ -1,0 +1,11 @@
+#!/bin/sh
+
+dvorak_str=`setxkbmap -print|grep dvorak`
+
+if [[ -z "$dvorak_str" ]]; then
+	setxkbmap dvorak
+	xmodmap /home/henning/.Xmodmaprc
+else
+	setxkbmap de
+fi
+

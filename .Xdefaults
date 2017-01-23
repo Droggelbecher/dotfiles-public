@@ -1,0 +1,354 @@
+
+
+Xft.dpi:   96
+Xft.antialias: true
+Xft.hintig: true
+!Xft.rgba: true
+Xft.rgba: rgb
+!Xft.lcdfilter: lcdfilterlegacy
+!Xft.lcdfilter: lcdlight
+!Xft.lcdfilter: lcddefault
+Xft.lcdfilter: none
+Xft.hintstyle: hintfull
+
+
+!URxvt*termName: rxvt
+!URxvt*font: xft:Monospace:size=8
+!URxvt*font: xft:Terminus:pixelsize=8
+!URxvt*font: xft:ProggyCleanTT:size=12
+!URxvt*font: xft:ProggyTinyTT:size=12
+!URxvt*boldFont: xft:ProggyTinyTT:italic:size=12
+!URxvt*font: -xos4-terminus-bold-r-normal--20-200-72-72-c-100-iso8859-16
+!URxvt*font: -*-proggyclean-*-*-*-*-13-*-*-*-*-*-*-*
+!URxvt*boldFont: -*-proggyclean-*-*-*-*-13-*-*-*-*-*-*-*
+!xft:Envy Code R:pixelsize=9
+!URxvt*font: xft:ProggySmallTT:size=12
+!URxvt*boldMode: false
+!URxvt*font: fixed
+!URxvt*font: -*-montecarlo-medium-r-normal-*-11-*-*-*-*-*-*-*
+!URxvt*boldFont: -*-montecarlo-bold-r-normal-*-11-*-*-*-*-*-*-*
+
+!URxvt*font: -windows-proggyclean-medium-r-normal--13-80-96-96-c-70-iso8859-1
+!URxvt*boldFont: -windows-proggyclean-medium-r-normal--13-80-96-96-c-70-iso8859-1
+
+URxvt*font: -gohu-gohufont-medium-r-normal--11-80-100-100-c-60-iso8859-1
+URxvt*boldFont: -gohu-gohufont-bold-r-normal--11-80-100-100-c-60-iso8859-1
+
+! See "man 7 urxvt" for escape sequences
+URxvt.keysym.C-9: command:\033]710;-gohu-gohufont-medium-r-normal--11-80-100-100-c-60-iso8859-1\007\033]711;-gohu-gohufont-bold-r-normal--11-80-100-100-c-60-iso8859-1\007
+URxvt.keysym.C-0: command:\033]710;-gohu-gohufont-medium-r-normal--14-100-100-100-c-80-iso8859-1\007\033]711;-gohu-gohufont-bold-r-normal--14-100-100-100-c-80-iso8859-1\007
+
+URxvt*loginShell: false
+
+URxvt*color0: #000000
+URxvt*color1: #CC0000
+!URxvt*color2: #4E9A06
+URxvt*color2: #8E9A46
+!URxvt*color3: #C4A000
+URxvt*color3: #A06800
+URxvt*color4: #3465A4
+URxvt*color5: #75507B
+URxvt*color6:    rgb:06/98/9A
+URxvt*color7: #a0a0a0
+URxvt*color9:    #EF2929
+URxvt*color10:    #8AE234
+URxvt*color11:    #FCE94F
+URxvt*color12:    #729FCF
+URxvt*color13:    #AD7FA8
+URxvt*color14:    #34E2E2
+URxvt*color15:   #ffffff
+!
+URxvt.background:  #000000
+URxvt.foreground: #a0a0a0
+URxvt.scrollBar: false
+
+!URxvt.inheritPixmap: true
+
+!URxvt.transparent: true
+URxvt.transparent: false
+URxvt.cursorColor: #919191
+
+!URxvt.fading: 20
+URxvt.shading: 50
+!URxvt.tintColor: #a0b0c0
+
+URxvt.urgentOnBell: true
+
+URxvt*scrollBar: false
+URxvt*scrollTtyOutput: false
+URxvt*scrollTtyKeypress: true
+
+!URxvt.perl-ext-common: default,matcher
+!URxvt.saveLines: 10000
+!URxvt.matcher.button: 1
+!URxvt.matcher.pattern: \\bwww\\.[\\w-]\\.[\\w./?&@#-]*[\\w/-]
+URxvt.matcher.pattern: (?:https?:\/\/|ftp:\/\/|news:\/\/|file:\/\/|\\bwww\\.)[\\w\\-\\@;\\/?:&=%\\$.+!*\x27,~#()]*
+
+URxvt.perl-ext-common:      default,-searchable-scrollback
+URxvt.perl-ext:      default,clipboard,url-select,keyboard-select,-searchable-scrollback
+URxvt.url-select.launcher: sensible-browser
+URxvt.url-select.underline: true
+URxvt.underlineURLs: true
+URxvt.colorUL: #c0c0c0
+URxvt.keysym.M-u:           perl:url-select:select_next
+URxvt.keysym.M-Escape:      perl:keyboard-select:activate
+!URxvt.keysym.M-s:           perl:keyboard-select:search
+URxvt.keysym.M-v:           perl:clipboard:paste
+
+! :Bind C-0, C-+ and C-= to activate small, medium, and big font size resp.     
+URxvt.keysym.C-9: command:\033]710;-gohu-gohufont-medium-r-normal--11-80-100-100-c-60-iso8859-1\007\033]711;-gohu-gohufont-bold-r-normal--11-80-100-100-c-60-iso8859-1\007
+URxvt.keysym.C-0: command:\033]710;-gohu-gohufont-medium-r-normal--14-100-100-100-c-80-iso8859-1\007\033]711;-gohu-gohufont-bold-r-normal--14-100-100-100-c-80-iso8859-1\007
+
+
+URxvt.urlLauncher: sensible-browser
+
+!URxvt.termName: rxvt-unicode
+URxvt.secondaryScroll: true
+
+URxvt.tabbed.tabbar-fg: 8
+URxvt.tabbed.tabbar-bg: 0
+URxvt.tabbed.tab-fg: 7
+URxvt.tabbed.tab-bg: 0
+
+
+!!! drop in Solarized colorscheme for Xresources/Xdefaults
+
+!!!SOLARIZED HEX     16/8 TERMCOL  XTERM/HEX   L*A*B      RGB         HSB
+!!!--------- ------- ---- -------  ----------- ---------- ----------- -----------
+!!!base03    #002b36  8/4 brblack  234 #1c1c1c 15 -12 -12   0  43  54 193 100  21
+!!!base02    #073642  0/4 black    235 #262626 20 -12 -12   7  54  66 192  90  26
+!!!base01    #586e75 10/7 brgreen  240 #585858 45 -07 -07  88 110 117 194  25  46
+!!!base00    #657b83 11/7 bryellow 241 #626262 50 -07 -07 101 123 131 195  23  51
+!!!base0     #839496 12/6 brblue   244 #808080 60 -06 -03 131 148 150 186  13  59
+!!!base1     #93a1a1 14/4 brcyan   245 #8a8a8a 65 -05 -02 147 161 161 180   9  63
+!!!base2     #eee8d5  7/7 white    254 #e4e4e4 92 -00  10 238 232 213  44  11  93
+!!!base3     #fdf6e3 15/7 brwhite  230 #ffffd7 97  00  10 253 246 227  44  10  99
+!!!yellow    #b58900  3/3 yellow   136 #af8700 60  10  65 181 137   0  45 100  71
+!!!orange    #cb4b16  9/3 brred    166 #d75f00 50  50  55 203  75  22  18  89  80
+!!!red       #dc322f  1/1 red      160 #d70000 50  65  45 220  50  47   1  79  86
+!!!magenta   #d33682  5/5 magenta  125 #af005f 50  65 -05 211  54 130 331  74  83
+!!!violet    #6c71c4 13/5 brmagenta 61 #5f5faf 50  15 -45 108 113 196 237  45  77
+!!!blue      #268bd2  4/4 blue      33 #0087ff 55 -10 -45  38 139 210 205  82  82
+!!!cyan      #2aa198  6/6 cyan      37 #00afaf 60 -35 -05  42 161 152 175  74  63
+!!!green     #859900  2/2 green     64 #5f8700 60 -20  65 133 153   0  68 100  60
+
+!#define S_base03        #002b36
+!#define S_base02        #073642
+!#define S_base01        #586e75
+!#define S_base00        #657b83
+!#define S_base0         #839496
+!#define S_base1         #93a1a1
+!#define S_base2         #eee8d5
+!#define S_base3         #fdf6e3
+!#define S_yellow        #b58900
+!#define S_orange        #cb4b16
+!#define S_red           #dc322f
+!#define S_magenta       #d33682
+!#define S_violet        #6c71c4
+!#define S_blue          #268bd2
+!#define S_cyan          #2aa198
+!#define S_green         #859900
+
+!*background:            S_base03
+!*foreground:            S_base00
+!*fading:                40
+!*fadeColor:             S_base03
+!*cursorColor:           S_base1
+!*pointerColorBackground:S_base01
+!*pointerColorForeground:S_base1
+
+!!! black dark/light
+!*color0:                S_base02
+!*color8:                S_base03
+
+!!! red dark/light
+!*color1:                S_red
+!*color9:                S_orange
+
+!!! green dark/light
+!*color2:                S_green
+!*color10:               S_base01
+
+!!! yellow dark/light
+!*color3:                S_yellow
+!*color11:               S_base00
+
+!!! blue dark/light
+!*color4:                S_blue
+!*color12:               S_base0
+
+!!! magenta dark/light
+!*color5:                S_magenta
+!*color13:               S_violet
+
+!!! cyan dark/light
+!*color6:                S_cyan
+!*color14:               S_base1
+
+!!! white dark/light
+!*color7:                S_base2
+!*color15:               S_base3
+
+
+
+
+
+
+
+! Hybrid Terminal Colours. Uses the palette from Tomorrow-Night:
+! https://github.com/chriskempson/tomorrow-theme/blob/master/vim/colors/Tomorrow-Night.vim
+! vim: ft=xdefaults
+ 
+!*background: #1D1F21
+!*foreground: #C5C8C6
+!! black
+!*color0: #282A2E
+!*color8: #373B41
+!! red
+!*color1: #A54242
+!*color9: #CC6666
+!! green
+!*color2: #8C9440
+!*color10: #B5BD68
+!! yellow
+!*color3: #DE935F
+!*color11: #F0C674
+!! blue
+!*color4: #5F819D
+!*color12: #81A2BE
+!! magenta
+!*color5: #85678F
+!*color13: #B294BB
+!! cyan
+!*color6: #5E8D87
+!*color14: #8ABEB7
+!! white
+!*color7: #707880
+!*color15: #C5C8C6
+
+
+
+
+
+
+
+! Base16 Default
+! Scheme: Chris Kempson (http://chriskempson.com)
+
+!#define base00 #151515
+!#define base01 #202020
+!#define base02 #303030
+!#define base03 #505050
+!#define base04 #b0b0b0
+!#define base05 #d0d0d0
+!#define base06 #e0e0e0
+!#define base07 #f5f5f5
+!#define base08 #ac4142
+!#define base09 #d28445
+!#define base0A #f4bf75
+!#define base0B #90a959
+!#define base0C #75b5aa
+!#define base0D #6a9fb5
+!#define base0E #aa759f
+!#define base0F #8f5536
+
+!URxvt*foreground: base05
+!URxvt*background: base00
+!URxvt*cursorColor: base05
+!URxvt*color0: base00
+!URxvt*color1: base08
+!URxvt*color2: base0B
+!URxvt*color3: base0A
+!URxvt*color4: base0D
+!URxvt*color5: base0E
+!URxvt*color6: base0C
+!URxvt*color7: base05
+!URxvt*color8: base03
+!URxvt*color9: base09
+!URxvt*color10: base01
+!!URxvt*color11: base02
+!URxvt*color12: base04
+!URxvt*color13: base06
+!URxvt*color14: base0F
+!URxvt*color15: base07
+
+
+
+
+
+
+
+
+
+
+
+! XScreenSaver
+
+
+*Dialog.headingFont:	*-helvetice-medium-r-*-*-*-100-*-*-*-iso8859-1
+*Dialog.bodyFont:		*-helvetica-medium-r-*-*-*-100-*-*-*-iso8859-1
+*Dialog.labelFont:		*-helvetica-medium-r-*-*-*-100-*-*-*-iso8859-1
+*Dialog.buttonFont:		*-helvetica-medium-r-*-*-*-100-*-*-*-iso8859-1
+*Dialog.dateFont:		*-helvetice-medium-r-*-*-*-100-*-*-*-iso8859-1
+*Dialog.foreground:		#4CB34A
+*Dialog.background:		#000000
+*Dialog.Button.foreground:	#4Cb34a
+*Dialog.Button.background:	#081008
+!*Dialog.Button.background:	#D6D6D6
+!*Dialog.Button.pointBackground: #EAEAEA
+!*Dialog.Button.clickBackground: #C3C3C3
+*Dialog.text.foreground:	#000000
+*Dialog.text.background:	#FFFFFF
+*Dialog.topShadowColor:		#FFFFFF
+*Dialog.bottomShadowColor:	#666666
+*Dialog.logo.width:		120
+*Dialog.logo.height:		120
+!*Dialog.logo.width:		1
+!*Dialog.logo.height:		1
+*Dialog.internalBorderWidth:	50
+*Dialog.borderWidth:		0
+*Dialog.shadowThickness:	1
+
+*passwd.text.foreground:	#4CB34A
+*passwd.text.background:	#081008
+!*passwd.thermometer.foreground:	#FF0000
+*passwd.thermometer.foreground:	#4CB34A
+*passwd.thermometer.background:	#000000
+*passwd.thermometer.width:	8
+*passwd.background:		#081008
+*passwd.foreground:		#4CB34A
+*passwd.topShadowColor:		#4CB34A
+*passwd.bottomShadowColor:	#4CB34A
+*passwd.borderWidth:		0
+*passwd.shadowThickness:	1
+*passwd.heading.label:	    
+*passwd.body.label:		
+*passwd.user.label:		    
+*passwd.passwd.label:		
+*passwd.headingFont:		*-helvetica-medium-r-*-*-*-100-*-*-*-iso8859-1
+*passwd.passwdFont:		*-helvetice-medium-r-*-*-*-100-*-*-*-iso8859-1
+!*passwd.dateFont:		*-courier-medium-r-*-*-*-100-*-*-*-iso8859-1
+*passwd.dateFont:		*-helvetica-medium-r-*-*-*-100-*-*-*-iso8859-1
+*dateFormat:		%a, %Y-%m-%d %H:%M
+
+*splash.heading.label:		XScreenSaver %s
+*splash.body.label:		Copyright (c) 1991-2005 by
+*splash.body2.label:		Jamie Zawinski <jwz@jwz.org>
+*splash.demo.label:		Settings
+*splash.help.label:		Help
+
+
+
+rofi.color-enabled: true
+
+! background, border, dashed line
+rofi.color-window: #102034
+!, #285577
+!, #203044
+
+! text bg 1, text fg, text bg 2
+rofi.color-normal: #102034, #c1c1c1, #18283c, #394249, #ffffff
+rofi.color-active: #273238, #285577, #273238, #394249, #80cbc4
+rofi.color-urgent: #273238, #ff1844, #273238, #394249, #ff1844
+
+
