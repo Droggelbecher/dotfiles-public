@@ -1,6 +1,5 @@
 
-Some of my config files
-*************************
+= Some of my config files
 
 Some of my config files shared for the general public.
 Some are censored to not contain information that I'd like to keep secret,

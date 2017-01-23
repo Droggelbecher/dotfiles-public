@@ -52,13 +52,18 @@ set global grepcmd 'ag --column'
 set global indentwidth 0
 set global tabstop 4
 
+# Make commands like ":edit ." open ranger for file selection
 ranger-open-on-edit-directory
 
-
+# ,w -> Create some kind of window
 map global user w :window_multimap<ret>
 
+# ,y / ,p -> yank/paste to/from clipboard
 map global user y '<a-|>xclip -selection clipboard<ret>'
 map global user p '<a-!>xclip -selection clipboard -out<ret>'
+
+# ,f -> auto-format current selection (by piping through "fmt")
+map global user f '|fmt<ret>'
 
 map global normal '#' :comment-line<ret>
 
