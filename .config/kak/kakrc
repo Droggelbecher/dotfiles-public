@@ -1,34 +1,30 @@
 
 def cd-to-buffer %{ %sh{
-	echo cd $(dirname ${kak_buffile})
-	echo echo cd $(dirname ${kak_buffile})
+    echo cd $(dirname ${kak_buffile})
+    echo echo cd $(dirname ${kak_buffile})
 }}
 
 
 # Creation of various windows/panes/whatever
 
-def -allow-override term-kak-new %{
-    nop %sh{ ( /usr/bin/urxvt -e kak -c $kak_session ) >/dev/null 2>&1 </dev/null & }<ret>
-}
-
 def -allow-override open-window -docstring "Open a temporary window (filechooser)" %{
     on-key %{ %sh{
         case "$kak_key" in
             k)
-				echo run-kakoune
-				;;
+                echo run-kakoune
+                ;;
             r)
                 echo open-ranger
                 ;;
             R)
                 echo run-ranger
                 ;;
-			f)
-				echo open-fzf-file
-				;;
-			g)
-				echo open-fzf-git
-				;;
+            f)
+                echo open-fzf-file
+                ;;
+            g)
+                echo open-fzf-git
+                ;;
             s)
                 echo run-shell
                 ;;
@@ -43,20 +39,20 @@ def -allow-override new-window -docstring "Open a permanent window" %{
     on-key %{ %sh{
         case "$kak_key" in
             k)
-				echo run-kakoune
-				;;
+                echo run-kakoune
+                ;;
             r)
                 echo new-open-ranger
                 ;;
             R)
                 echo run-ranger
                 ;;
-			f)
-				echo new-open-fzf-file
-				;;
-			g)
-				echo new-open-fzf-git
-				;;
+            f)
+                echo new-open-fzf-file
+                ;;
+            g)
+                echo new-open-fzf-git
+                ;;
             s)
                 echo run-shell
                 ;;
@@ -73,10 +69,10 @@ def -allow-override new-window -docstring "Open a permanent window" %{
 
 hook global WinSetOption filetype=python %{
     jedi-enable-autocomplete
-	set buffer lintcmd 'flake8 --filename=*'
-	lint-enable
+    set buffer lintcmd 'flake8 --filename=*'
+    lint-enable
     set buffer indentwidth 4
-	set buffer comment_line_chars '#'
+    set buffer comment_line_chars '#'
 }
 
 
@@ -158,5 +154,5 @@ hook global BufOpen .* %{
     modeline-parse
 }
 
-
+# kak: set indentwidth=4:
 
