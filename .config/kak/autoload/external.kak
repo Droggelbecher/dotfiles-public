@@ -61,15 +61,19 @@ def new-open-ranger %{ %sh{
 	echo new-opener "ranger\ --selectfile=${kak_buffile}\ --choosefile=\$tmp"
 } }
 
-def run-git-show %{ %sh{
+def run-git-show -params 0..1 %{ %sh{
+	rev=$1
+	if [ -z "$rev" ]; then
+		rev=HEAD
+	fi
 	tmp=$(mktemp /tmp/kak-git-show.XXXXXX)
 	tmp2=$tmp.$(basename ${kak_buffile})
 	mv $tmp $tmp2
 	rel_path=$(git ls-tree --full-name --name-only HEAD ${kak_buffile})
-	git show HEAD:$rel_path > $tmp2
+	git show $rev:$rel_path > $tmp2
     cmd=$(mktemp /tmp/kak-cmd.XXXXXX)
 	cat >$cmd <<END
-kak -c $kak_session -ro $tmp2
+kak -ro $tmp2
 rm $tmp2
 END
 	chmod 755 $cmd
@@ -185,9 +189,9 @@ def run-external-tmux -params 1.. %{ %sh{
         exit
     fi
 	echo cd $(dirname ${kak_buffile})
-    echo echo "tmux split-window -h /bin/sh $command"
+    echo echo "tmux split-window -h /bin/sh -c $command"
 	cd $(dirname ${kak_buffile})
-    TMUX=$tmux tmux split-window -h /bin/sh -c $command
+    TMUX=$tmux tmux split-window -h /bin/sh -c "$command"
 } }
 
 def run-external-term -params 1.. %{ %sh{
@@ -198,10 +202,10 @@ def run-external-term -params 1.. %{ %sh{
         exit
     fi
 	echo cd $(dirname ${kak_buffile})
-    echo echo $term -e /bin/sh $command
+    echo echo $term -e /bin/sh -c $command
     (
 		cd $(dirname ${kak_buffile})
-        $term -e /bin/sh $command
+        $term -e /bin/sh -c "$command"
     ) >/dev/null 2>&1 </dev/null &
 } }
 
