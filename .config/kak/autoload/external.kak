@@ -28,7 +28,7 @@ def fzf-cd -params 0..1 %{
 }
 
 def run-kakoune %{ %sh{
-	echo run-external kak -c $kak_session
+	echo run-external "kak -c $kak_session"
 } }
 
 def run-ranger %{ %sh{
@@ -36,11 +36,20 @@ def run-ranger %{ %sh{
 } }
 
 def run-shell -params 0.. %{ %sh{
-	echo echo $SHELL
 	if [ -z "$@" ]; then
-		echo run-external "\$SHELL"
+		echo run-external "$SHELL"
 	else
-		echo run-external "\$SHELL -c '$@ ; echo Press return to close ; read'"
+	    cmd=$(mktemp /tmp/kak-cmd.XXXXXX)
+		cat >$cmd <<END
+#!/bin/sh
+$@
+sleep 1
+echo Press return to close
+read
+rm $cmd
+END
+		chmod 755 $cmd
+		echo run-external $cmd
 	fi
 } }
 
@@ -169,32 +178,31 @@ def run-external -params 1.. %{ %sh{
 
 def run-external-tmux -params 1.. %{ %sh{
     tmux=${kak_client_env_TMUX:-$TMUX}
+    command="$@"
     if [ -z "$tmux" ]; then
         # Not running inside a tmux, try to spawn a terminal window
         echo "echo -color Error 'No tmux session found'"
         exit
     fi
 	echo cd $(dirname ${kak_buffile})
-    command="$@"
-    (
-		cd $(dirname ${kak_buffile})
-        TMUX=$tmux tmux split-window -h "$command"
-    ) > /dev/null 2>&1 </dev/null &
+    echo echo "tmux split-window -h /bin/sh $command"
+	cd $(dirname ${kak_buffile})
+    TMUX=$tmux tmux split-window -h /bin/sh -c $command
 } }
 
 def run-external-term -params 1.. %{ %sh{
 	term=urxvt
+    command="$@"
     if [ -x "$term" ]; then
-        # Not running inside a tmux, try to spawn a terminal window
         echo "echo -color Error $term not found or not executable"
         exit
     fi
 	echo cd $(dirname ${kak_buffile})
-    command="$@"
+    echo echo $term -e /bin/sh $command
     (
 		cd $(dirname ${kak_buffile})
-        $term -e "$command"
-    ) > /dev/null 2>&1 </dev/null &
+        $term -e /bin/sh $command
+    ) >/dev/null 2>&1 </dev/null &
 } }
 
 
