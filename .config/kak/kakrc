@@ -1,62 +1,131 @@
 
+def cd-to-buffer %{ %sh{
+	echo cd $(dirname ${kak_buffile})
+	echo echo cd $(dirname ${kak_buffile})
+}}
+
+
 # Creation of various windows/panes/whatever
 
 def -allow-override term-kak-new %{
-	nop %sh{ ( /usr/bin/urxvt -e kak -c $kak_session ) >/dev/null 2>&1 </dev/null & }<ret>
-}
-def -allow-override term-ranger-new %{
-	nop %sh{ (
-		/usr/bin/urxvt -e /usr/bin/ranger
-	) >/dev/null 2>&1 </dev/null & }<ret>
-}
-def -allow-override term-shell-new %{
-	nop %sh{ ( /usr/bin/urxvt ) >/dev/null 2>&1 </dev/null & }<ret>
+    nop %sh{ ( /usr/bin/urxvt -e kak -c $kak_session ) >/dev/null 2>&1 </dev/null & }<ret>
 }
 
-def -allow-override window_multimap %{
-	on-key %{ %sh{
-		case "$kak_key"	in
-			t|v)
-				# Create a horizontal tmux split, handy in remote sessions
-				echo tmux-new-horizontal
+def -allow-override open-window -docstring "Open a temporary window (filechooser)" %{
+    on-key %{ %sh{
+        case "$kak_key" in
+            k)
+				echo run-kakoune
 				;;
-			w|c)
-				# Create a new terminal window with another kakoune client
-				echo term-kak-new
+            r)
+                echo open-ranger
+                ;;
+            R)
+                echo run-ranger
+                ;;
+			f)
+				echo open-fzf-file
 				;;
-			r)
-				# Create a new terminal window running ranger to edit a file "close by"
-				# Not crucial anymore since I know there is already :ranger and
-				# :ranger-open-on-edit-directory, but still useful for open other "related" files to 
-				# a project that require non-editor apps (like graphics) or doing sequences of file operations
-				echo term-ranger-new
+			g)
+				echo open-fzf-git
 				;;
-			s)
-				echo term-shell-new
-				;;
-			*)
-				echo echo key "$kak_key" not bound.
-				;;
-		esac
-	} }
+            s)
+                echo run-shell
+                ;;
+            *)
+                echo echo key "$kak_key" not bound.
+                ;;
+        esac
+    } }
 }
+
+def -allow-override new-window -docstring "Open a permanent window" %{
+    on-key %{ %sh{
+        case "$kak_key" in
+            k)
+				echo run-kakoune
+				;;
+            r)
+                echo new-open-ranger
+                ;;
+            R)
+                echo run-ranger
+                ;;
+			f)
+				echo new-open-fzf-file
+				;;
+			g)
+				echo new-open-fzf-git
+				;;
+            s)
+                echo run-shell
+                ;;
+            *)
+                echo echo key "$kak_key" not bound.
+                ;;
+        esac
+    } }
+}
+
+#
+# File type hooks
+#
+
+hook global WinSetOption filetype=python %{
+    jedi-enable-autocomplete
+	set buffer lintcmd 'flake8 --filename=*'
+	lint-enable
+    set buffer indentwidth 4
+	set buffer comment_line_chars '#'
+}
+
+
 
 # I like the others actually more, but default simply has the best contrast
 colorscheme default
 
-set global autochdir true
+# autochdir is great but alas not compatible with assumptions that some
+# tools make (eg. navigating through grep-results with :grep-next will
+# get confused when cwd changes during "iteration")
+set global autochdir false
 
 set global grepcmd 'ag --column'
+set global makecmd 'make -j8'
 
 # indentwidth = 0 -> indent with tabs
 set global indentwidth 0
 set global tabstop 4
 
-# Make commands like ":edit ." open ranger for file selection
-ranger-open-on-edit-directory
+# <highlight current word>
+
+decl -hidden regex curword
+face CurWord default,rgb:4a4a4a
+
+hook global WinCreate .* %{
+    addhl show_matching
+    addhl dynregex '%reg{/}' 0:+u
+
+    # Highlight the word under the cursor
+    addhl dynregex '%opt{curword}' 0:CurWord
+}
+
+hook global NormalIdle .* %{
+    eval -draft %{ try %{
+        exec <space><a-i>w <a-k>\`\w+\'<ret>
+        set buffer curword "\b\Q%val{selection}\E\b"
+    } catch %{
+        set buffer curword ''
+    } }
+}
+
+# </highlight current word>
+
+# ,c -> cd into folder of current file
+map global user c :cd-to-buffer<ret>
 
 # ,w -> Create some kind of window
-map global user w :window_multimap<ret>
+map global user w :open-window<ret>
+map global user W :new-window<ret>
 
 # ,y / ,p -> yank/paste to/from clipboard
 map global user y '<a-|>xclip -selection clipboard<ret>'
@@ -65,12 +134,29 @@ map global user p '<a-!>xclip -selection clipboard -out<ret>'
 # ,f -> auto-format current selection (by piping through "fmt")
 map global user f '|fmt<ret>'
 
+# # -> (un)comment line (hint: use in combination w/ alt-s)
 map global normal '#' :comment-line<ret>
 
+# ,n/,p -> next/prev grep result
 map global goto n <esc>:grep-next<ret>
 map global goto p <esc>:grep-prev<ret>
 
-# Show whitespaces (vim:listchars-alike), source: issue #309
+# ,m/,M -> next/prev compiler error
+map global goto m <esc>:make-next<ret>
+map global goto M <esc>:make-prev<ret>
+
+# ,l/,L -> Show whitespaces (vim:listchars-alike), source: issue #309
 map global user l '<esc>:addhl show_whitespaces<ret>'
 map global user L '<esc>:rmhl show_whitespaces<ret>'
+
+
+# TAB -> (de)-indent the current line with spaces/tabs according to indentwith
+map global insert <tab> '<a-;><a-gt>'
+map global insert <backtab> '<a-;><a-lt>'
+
+hook global BufOpen .* %{
+    modeline-parse
+}
+
+
 
