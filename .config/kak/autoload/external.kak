@@ -93,7 +93,8 @@ def new-opener -params 1.. %{ %sh{
 	chmod 755 \$edit
 	tmp=$(mktemp /tmp/kak-tmp.XXXXXX)
 	cd $(dirname ${kak_buffile})
-	SHELL=sh $opener
+	export SHELL=/bin/sh
+	$opener
 	echo >> \$tmp
 
 	rm \$edit
@@ -123,7 +124,8 @@ def run-opener -params 1.. %{ %sh{
 	chmod 755 \$edit
 	tmp=$(mktemp /tmp/kak-tmp.XXXXXX)
 	cd $(dirname ${kak_buffile})
-	SHELL=sh $opener
+	export SHELL=/bin/sh
+	$opener
 	echo >> \$tmp
 	(while read file; do
 		if [ ! -z "\$file" ]; then
@@ -145,11 +147,11 @@ def open-fzf -params 2 %{ %sh{
 
 	if [ -z "$options" ]; then
 		echo "run-opener fzf -e -m --bind ctrl-c:execute\"(\$edit \\\"{}\\\")\" \
-			--preview=\"highlight -O ansi --failsafe {} 2>/dev/null\" \
+			--preview=\"highlight -O ansi --failsafe {} 2> /dev/null\" \
 			--preview-window=up:30% > \$tmp"
 	else
 		echo "run-opener $options | fzf -e -m --bind ctrl-c:execute\"(\$edit \\\"{}\\\")\" \
-			--preview=\"highlight -O ansi --failsafe {} 2>/dev/null\" \
+			--preview=\"highlight -O ansi --failsafe {} 2> /dev/null\" \
 			--preview-window=up:30% > \$tmp"
 	fi
 } }
@@ -161,11 +163,11 @@ def new-fzf -params 2 %{ %sh{
 
 	if [ -z "$options" ]; then
 		echo "new-opener fzf -e -m --bind ctrl-c:execute\"(\$edit \\\"{}\\\")\" \
-			--preview=\"highlight -O ansi --failsafe {} 2>/dev/null\" \
+			--preview=\"highlight -O ansi --failsafe {} 2> /dev/null\" \
 			--preview-window=up:30% > \$tmp"
 	else
 		echo "new-opener $options | fzf -e -m --bind ctrl-c:execute\"(\$edit \\\"{}\\\")\" \
-			--preview=\"highlight -O ansi --failsafe {} 2>/dev/null\" \
+			--preview=\"highlight -O ansi --failsafe {} 2> /dev/null\" \
 			--preview-window=up:30% > \$tmp"
 	fi
 } }
@@ -206,7 +208,7 @@ def run-external-term -params 1.. %{ %sh{
     (
 		cd $(dirname ${kak_buffile})
         $term -e /bin/sh -c "$command"
-    ) >/dev/null 2>&1 </dev/null &
+    ) > /dev/null 2>&1 < /dev/null &
 } }
 
 
